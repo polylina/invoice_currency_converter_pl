@@ -1,0 +1,18 @@
+{
+  "name": "invoice-currency-converter-pl",
+  "version": "1.0.0",
+  "description": "Browser extension to convert USD/EUR to PLN using NBP exchange rates",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.2.0"
+  },
+  "dependencies": {
+    "vue": "^3.4.21"
+  }
+}
