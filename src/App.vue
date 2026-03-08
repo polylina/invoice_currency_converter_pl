@@ -23,7 +23,12 @@
 
         <div class="form-group">
           <label for="currency">Currency</label>
-          <select id="currency" v-model="currency" class="form-control" required>
+          <select
+            id="currency"
+            v-model="currency"
+            class="form-control"
+            required
+          >
             <option value="USD">USD – US Dollar</option>
             <option value="EUR">EUR – Euro</option>
           </select>
@@ -54,16 +59,54 @@
       <div v-if="result" class="result-section">
         <div class="result-row">
           <span class="result-value">{{ formattedPln }} PLN</span>
-          <button class="copy-btn" @click="copyText(formattedPln + ' PLN')" title="Copy">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <button
+            class="copy-btn"
+            @click="copyText(formattedPln + ' PLN')"
+            title="Copy"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              />
+            </svg>
           </button>
         </div>
 
         <div class="notes-section">
           <div class="notes-header">
             <span class="notes-label">Notes</span>
-            <button class="copy-btn" @click="copyText(notesText)" title="Copy notes">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <button
+              class="copy-btn"
+              @click="copyText(notesText)"
+              title="Copy notes"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path
+                  d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                />
+              </svg>
             </button>
           </div>
           <pre class="notes-text">{{ notesText }}</pre>
@@ -74,80 +117,81 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed } from "vue";
 
-const amount = ref('')
-const currency = ref('USD')
-const date = ref('')
-const loading = ref(false)
-const error = ref('')
-const result = ref(null)
+const amount = ref("");
+const currency = ref("USD");
+const date = ref("");
+const loading = ref(false);
+const error = ref("");
+const result = ref(null);
 
 const todayDate = computed(() => {
-  return new Date().toISOString().split('T')[0]
-})
+  return new Date().toISOString().split("T")[0];
+});
 
 const formattedPln = computed(() => {
-  if (!result.value) return ''
-  return (amount.value * result.value.mid).toFixed(2)
-})
+  if (!result.value) return "";
+  return (amount.value * result.value.mid).toFixed(2);
+});
 
 const notesText = computed(() => {
-  if (!result.value) return ''
-  const { mid, no, effectiveDate } = result.value
-  const convertedSum = formattedPln.value
+  if (!result.value) return "";
+  const { mid, no, effectiveDate } = result.value;
+  const convertedSum = formattedPln.value;
   return (
     `Netto value/Wartość netto ${currency.value}: ${amount.value}.\n` +
     `Currency conversion/Konwersja walut: ${amount.value} ${currency.value} (1 ${currency.value} = ${mid} PLN).\n` +
     `Based on NBP avg exchange rates/Na podstawie średnich kursów wymiany NBP ${no} from ${effectiveDate}.`
-  )
-})
+  );
+});
 
 async function onSubmit() {
-  error.value = ''
-  result.value = null
-  loading.value = true
+  error.value = "";
+  result.value = null;
+  loading.value = true;
 
   try {
-    const url = `https://api.nbp.pl/api/exchangerates/rates/a/${currency.value.toLowerCase()}/${date.value}/?format=json`
-    const response = await fetch(url)
+    const url = `https://api.nbp.pl/api/exchangerates/rates/a/${currency.value.toLowerCase()}/${date.value}/?format=json`;
+    const response = await fetch(url);
 
     if (!response.ok) {
       if (response.status === 404) {
-        error.value = 'No exchange rate available for this date. Please choose a business day.'
+        error.value =
+          "No exchange rate available for this date. Please choose a business day.";
       } else {
-        error.value = `API error: ${response.status} ${response.statusText}`
+        error.value = `API error: ${response.status} ${response.statusText}`;
       }
-      return
+      return;
     }
 
-    const data = await response.json()
-    result.value = data.rates[0]
+    const data = await response.json();
+    result.value = data.rates[0];
   } catch (err) {
-    error.value = `Network error: ${err.message}`
+    error.value = `Network error: ${err.message}`;
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 
 async function copyText(text) {
   try {
-    await navigator.clipboard.writeText(text)
+    await navigator.clipboard.writeText(text);
   } catch {
     // Fallback for environments without clipboard API
-    const textarea = document.createElement('textarea')
-    textarea.value = text
-    document.body.appendChild(textarea)
-    textarea.select()
-    document.execCommand('copy')
-    document.body.removeChild(textarea)
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
   }
 }
 
 function closeSidebar() {
   // The sidebar is embedded in an arbitrary web page, so the parent origin is unknown.
   // We send no sensitive data and validation occurs in the content script (origin check).
-  window.parent.postMessage({ type: 'ICC_CLOSE_SIDEBAR' }, '*')
+  window.parent.postMessage({ type: "ICC_CLOSE_SIDEBAR" }, "*");
 }
 </script>
 
@@ -159,7 +203,8 @@ function closeSidebar() {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
   background: #fff;
   color: #1a1a1a;
@@ -179,7 +224,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  background: #1d4ed8;
+  background: #009688;
   color: #fff;
   flex-shrink: 0;
 }
@@ -248,14 +293,14 @@ body {
 }
 
 .form-control:focus {
-  border-color: #1d4ed8;
-  box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.15);
+  border-color: #009688;
+  box-shadow: 0 0 0 2px rgba(0, 150, 136, 0.15);
 }
 
 .btn-primary {
   width: 100%;
   padding: 10px;
-  background: #1d4ed8;
+  background: #009688;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -266,7 +311,7 @@ body {
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #1e40af;
+  background: #00796b;
 }
 
 .btn-primary:disabled {
@@ -293,8 +338,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
+  background: #e0f2f1;
+  border: 1px solid #b2dfdb;
   border-radius: 8px;
   padding: 12px 14px;
   margin-bottom: 16px;
