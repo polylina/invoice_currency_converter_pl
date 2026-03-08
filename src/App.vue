@@ -138,7 +138,6 @@ const formattedPln = computed(() => {
 const notesText = computed(() => {
   if (!result.value) return "";
   const { mid, no, effectiveDate } = result.value;
-  const convertedSum = formattedPln.value;
   return (
     `Netto value/Wartość netto ${currency.value}: ${amount.value}.\n` +
     `Currency conversion/Konwersja walut: ${amount.value} ${currency.value} (1 ${currency.value} = ${mid} PLN).\n` +
@@ -348,7 +347,7 @@ body {
 .result-value {
   font-size: 20px;
   font-weight: 700;
-  color: #1d4ed8;
+  color: #009688;
 }
 
 .copy-btn {
