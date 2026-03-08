@@ -12,14 +12,14 @@
   },
   "action": {
     "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png",
-      "48": "icons/icon48.png"
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png",
+      "48": "assets/icons/icon48.png"
     },
     "default_title": "Currency Converter PL"
   },
   "background": {
-    "service_worker": "background.js"
+    "page": "background.html"
   },
   "content_scripts": [
     {
