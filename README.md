@@ -2,6 +2,8 @@
 
 A browser extension for **Chrome** and **Firefox** that converts USD or EUR amounts to PLN using the official [NBP (National Bank of Poland)](https://api.nbp.pl/) exchange rates.
 
+<img width="533" height="764" alt="Снимок экрана 2026-03-08 в 23 05 11" src="https://github.com/user-attachments/assets/8ba2b25f-1190-4451-8470-1a6d2cc1faa5" />
+
 ## Features
 
 - Sidebar UI built with Vue 3, injected alongside the current web page
@@ -26,11 +28,11 @@ The `dist/` directory contains the ready-to-load extension.
 **Chrome / Chromium:**
 1. Open `chrome://extensions`
 2. Enable **Developer mode**
-3. Click **Load unpacked** and select the `dist/` folder
+3. Click **Load unpacked** and select the `dist/chrome` folder
 
 **Firefox:**
 1. Open `about:debugging#/runtime/this-firefox`
-2. Click **Load Temporary Add-on** and select `dist/manifest.json`
+2. Click **Load Temporary Add-on** and select `dist/firefox/manifest.json`
 
 ### Build from source
 
