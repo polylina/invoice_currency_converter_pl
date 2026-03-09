@@ -1,14 +1,16 @@
 {
   "name": "invoice-currency-converter-pl",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Browser extension to convert USD/EUR to PLN using NBP exchange rates",
   "private": true,
   "scripts": {
     "dev": "vite",
+    "build": "npm run build:chrome && npm run build:firefox",
     "build:chrome": "vite build --outDir dist/chrome && mv dist/chrome/manifest.chrome.json dist/chrome/manifest.json && rm dist/chrome/manifest.firefox.json",
     "build:firefox": "vite build --outDir dist/firefox && mv dist/firefox/manifest.firefox.json dist/firefox/manifest.json && rm dist/firefox/manifest.chrome.json",
-    "archive:chrome": "npm run build:chrome && zip -r dist/chrome/invoice-currency-converter-pl-chrome.zip dist/chrome/*",
-    "archive:firefox": "npm run build:firefox && zip -r dist/firefox/invoice-currency-converter-pl-firefox.zip dist/firefox/*",
+    "archive": "npm run archive:chrome && npm run archive:firefox",
+    "archive:chrome": "npm run build:chrome && (cd dist/chrome && zip -r ../invoice-currency-converter-pl-chrome.zip *)",
+    "archive:firefox": "npm run build:firefox && (cd dist/firefox && zip -r ../invoice-currency-converter-pl-firefox.zip *)",
     "preview": "vite preview"
   },
   "devDependencies": {
