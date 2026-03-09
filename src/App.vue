@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <header class="sidebar-header">
-      <span class="sidebar-title">Currency Converter PL</span>
+      <span class="sidebar-title">Invoice Currency Converter PL</span>
       <button class="close-btn" @click="closeSidebar" title="Close">✕</button>
     </header>
 
