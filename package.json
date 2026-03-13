@@ -1,6 +1,6 @@
 {
   "name": "invoice-currency-converter-pl",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Browser extension to convert USD/EUR to PLN using NBP exchange rates",
   "private": true,
   "scripts": {
